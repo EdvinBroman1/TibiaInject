@@ -1,10 +1,13 @@
+#include <string.h>
 #include "pch.h"
+
 #include "GUI.h"
 #include "Hook.h"
 #include "Includess.h"
 #include "Attacker.h"
 #include "Entity.h"
-#include <string.h>
+#include "Player.h"
+
 intptr_t BaseAdress = (intptr_t)GetModuleHandle(NULL);
 
 
@@ -12,7 +15,7 @@ DWORD WINAPI InjectThread(HMODULE hModule)
 {
     add_print("Hello Injected", 5, 10, 30, 50, 150, 2);
     add_print("Print", 5, 30, 60, 50, 150, 2);
-
+    
     Hook((void*)(BaseAdress + HookPrintAddy), print_text, 5);
     while (true)
     {
@@ -20,10 +23,11 @@ DWORD WINAPI InjectThread(HMODULE hModule)
         {
             break;
         }
-
-        if (GetAsyncKeyState(VK_NUMPAD9) & 1)
+        if (GetAsyncKeyState(VK_NUMPAD2) & 1)
         {
-            clear_prints();
+            Player* p = new Player();
+            add_print(p->ToString(), 40, 1000, 255,0,255, 4);
+            
         }
         if (GetAsyncKeyState(VK_NUMPAD5) & 1)
         {
@@ -32,6 +36,11 @@ DWORD WINAPI InjectThread(HMODULE hModule)
             add_print(std::to_string(get_ent_amount()), 300, 300, 255, 100, 255, 4);
 
         }
+        if (GetAsyncKeyState(VK_NUMPAD9) & 1)
+        {
+            clear_prints();
+        }
+
         Sleep(10);
     }
     FreeLibraryAndExitThread(hModule, 0);

@@ -81,20 +81,3 @@ int clear_prints()
 }
 
 #pragma endregion Prints
-
-void send_green_text(std::string msg)
-{
-    //int length = msg.length();
-   // const char* txt1 = msg.c_str();
-    char* txt = (char*)"Cops Outside";
-    uint32_t adr = BaseAdr + 0x14AF50;
-
-    __asm {
-        MOV ESI, 15
-        PUSH txt
-        PUSH 15
-        CALL adr
-        ADD ESP, 0x8
-    }
-
-}

@@ -20,17 +20,13 @@ void send_attack_packet(int cid)
         PUSH 1
         CALL callpacketcool
 
-        ADD ESP, 16
+        ADD ESP, 0x10
     }
 }
 
 BOOL set_target(int cid)
 {
-    
     *(int*)(BaseAddress + 0x23FE64) = cid;
-
     send_attack_packet(cid);
-
-
     return true;
 }

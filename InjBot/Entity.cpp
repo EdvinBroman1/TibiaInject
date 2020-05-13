@@ -2,6 +2,7 @@
 #include "Entity.h"
 #include <string>
 #include "GUI.h"
+#include "Player.h"
 std::vector<Entity*> EntitiesOnScreen = std::vector<Entity*>();
 intptr_t BaseAdresss = (intptr_t)GetModuleHandle(NULL);
 
@@ -33,12 +34,15 @@ void populate_ent_list()
 	//startBattleList  -> EndBattleList -> check parameters (x,y,z) -> add
 	intptr_t BaseAdr = BaseAdresss + 0x23FEF8;
 	intptr_t Offset = 0xA8;
-	for (int i = 0; i < 1300; i++)
-	{
+	Player* player = new Player();
 
-		if (*(int*)(BaseAdr + (Offset * i)) != 0) {
-			EntitiesOnScreen.push_back(GetEntityByBaseAddress(BaseAdr + (Offset * i)));
-		}
+	for (int i = 0; i < 100; i++)
+	{
+		int creature_z = *(int*)(BaseAdr + (Offset * i) + 0x2C);
+		int player_Z = *(int*)(getPlayerPointer(player->creature_id) + 0x2C);
+			if (creature_z == player_Z) {
+				EntitiesOnScreen.push_back(GetEntityByBaseAddress(BaseAdr + (Offset * i)));
+			}
 		else {
 			continue;
 		}

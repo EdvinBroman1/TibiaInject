@@ -15,6 +15,7 @@ public:
 
 
 Entity* GetEntityByBaseAddress(uintptr_t BaseAddress);
+
 void populate_ent_list();
 void print_ent_list();
 int get_ent_amount();
