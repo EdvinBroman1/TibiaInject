@@ -39,6 +39,7 @@ DWORD WINAPI InjectThread(HMODULE hModule)
         if (GetAsyncKeyState(VK_NUMPAD9) & 1)
         {
             clear_prints();
+            clear_ent_list();
         }
 
         Sleep(10);

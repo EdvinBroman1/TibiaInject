@@ -38,13 +38,21 @@ void populate_ent_list()
 
 	for (int i = 0; i < 100; i++)
 	{
+		int creature_x = *(int*)(BaseAdr + (Offset * i) + 0x24);
+		int creature_y = *(int*)(BaseAdr + (Offset * i) + 0x28);
 		int creature_z = *(int*)(BaseAdr + (Offset * i) + 0x2C);
-		int player_Z = *(int*)(getPlayerPointer(player->creature_id) + 0x2C);
-			if (creature_z == player_Z) {
+
+		intptr_t pPlayer = getPlayerPointer(player->creature_id);
+
+		int player_x = *(int*)(pPlayer + 0x24);
+		int player_y = *(int*)(pPlayer + 0x28);
+		int player_z = *(int*)(getPlayerPointer(player->creature_id) + 0x2C);
+
+			if (creature_z == player_z && abs(creature_x - player_x) <= 7 && abs(creature_y - player_y) <= 5) {
 				EntitiesOnScreen.push_back(GetEntityByBaseAddress(BaseAdr + (Offset * i)));
 			}
-		else {
-			continue;
+			else {
+				continue;
 		}
 	}
 
@@ -58,6 +66,13 @@ void print_ent_list()
 		y = y + 20;
 	}
 
+}
+
+void clear_ent_list()
+{
+
+	EntitiesOnScreen.clear();
+	EntitiesOnScreen.shrink_to_fit();
 }
 
 int get_ent_amount()

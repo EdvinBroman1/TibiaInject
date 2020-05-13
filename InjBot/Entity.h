@@ -18,5 +18,6 @@ Entity* GetEntityByBaseAddress(uintptr_t BaseAddress);
 
 void populate_ent_list();
 void print_ent_list();
-int get_ent_amount();
+int get_ent_amount(); 
+void clear_ent_list();
 //char* get_creature_name_by_cid(int cid);
