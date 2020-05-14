@@ -1,4 +1,5 @@
 #pragma once
+#include "Position.h"
 #include <string>
 intptr_t getPlayerPointer(int creature_id);
 class Player {
@@ -60,4 +61,7 @@ public:
 	int x_pos;
 	int y_pos;
 	int z_pos;
+
+	void Say(std::string msg, int id);
+	bool WalkTo(Position* newPos);
 };

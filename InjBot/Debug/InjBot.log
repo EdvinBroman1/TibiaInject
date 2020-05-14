@@ -1,2 +1,2 @@
-﻿  Entity.cpp
-LINK : fatal error LNK1168: cannot open C:\Users\Admin\source\repos\InjBot\Debug\InjBot.dll for writing
+﻿  Player.cpp
+  InjBot.vcxproj -> C:\Users\Admin\source\repos\InjBot\Debug\InjBot.dll

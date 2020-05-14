@@ -13,9 +13,8 @@ intptr_t BaseAdress = (intptr_t)GetModuleHandle(NULL);
 
 DWORD WINAPI InjectThread(HMODULE hModule)
 {
-    add_print("Hello Injected", 5, 10, 30, 50, 150, 2);
-    add_print("Print", 5, 30, 60, 50, 150, 2);
-    
+    add_print("InjectBot 1.0", 5, 10, 30, 150, 150, 3);
+    Player* player = new Player();
     Hook((void*)(BaseAdress + HookPrintAddy), print_text, 5);
     while (true)
     {
@@ -25,9 +24,9 @@ DWORD WINAPI InjectThread(HMODULE hModule)
         }
         if (GetAsyncKeyState(VK_NUMPAD2) & 1)
         {
-            Player* p = new Player();
-            add_print(p->ToString(), 40, 1000, 255,0,255, 4);
-            
+            Position* posPtr = new Position(1004, 996, 7);
+            player->WalkTo(posPtr);
+
         }
         if (GetAsyncKeyState(VK_NUMPAD5) & 1)
         {

@@ -5,6 +5,7 @@
 intptr_t LocalPlayer = (intptr_t)(0x63FE40);
 const intptr_t baseadr = (intptr_t)GetModuleHandle(NULL);
 
+
 Player::Player() :
     fist_fight(*reinterpret_cast<int*>(LocalPlayer + PlayerOffsets::FistSkill)),
     club_fight(*reinterpret_cast<int*>(LocalPlayer + PlayerOffsets::ClubSkill)),
@@ -38,6 +39,41 @@ Player::Player() :
 
 std::string Player::ToString() {
     return "Name: " + this->Name + "\nLevel: " + std::to_string(this->level) + "\nHealth: " + std::to_string(this->current_health) + " / " + std::to_string(this->max_health) + "\n";
+}
+
+
+void Player::Say(std::string msg, int id) {
+    intptr_t funcd = baseadr + 0x73F0;
+
+    char* ca = new char[msg.size() + 1];
+    std::copy(msg.begin(), msg.end(), ca);
+    ca[msg.size()] = '\0';
+
+    __asm {
+        push ca
+        push id
+        call funcd
+        add esp, 0x8
+    }
+
+    delete[] ca;
+}
+
+bool Player::WalkTo(Position* newPos) // later on hook Sorry not possible popup & there is no way popup to check if successful
+{
+    intptr_t functionadr = baseadr + 0xD0E20;
+    int x = newPos->X - this->x_pos;
+    int y = newPos->Y - this->y_pos;
+    int z = newPos->Z - this->z_pos;
+    __asm {
+        push z
+        push y
+        push x
+
+        call functionadr
+
+    }
+    return true;
 }
 
 
