@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-
+intptr_t getPlayerPointer(int creature_id);
 class Player {
 private:
 	enum PlayerOffsets {
@@ -22,14 +22,17 @@ private:
 		MaxHealth = 0x50,
 		Health = 0x54,
 
-		CreatureID = 0x58
+		CreatureID = 0x58,
+
+		PositionX = 0x24,
+		PositionY = 0x28,
+		PositionZ = 0x2C
 	};
 public:
 	Player();
-	int getID();
-	void UpdateStats();
 	std::string ToString();
 	//stats
+
 	int fist_fight;
 	int club_fight;
 	int sword_fight;
@@ -49,10 +52,12 @@ public:
 	int current_health;
 
 	int creature_id;
+	uint32_t PlayerBase = getPlayerPointer(creature_id);
 
 	std::string Name;
 
+
+	int x_pos;
+	int y_pos;
+	int z_pos;
 };
-
-
-intptr_t getPlayerPointer(int creature_id);

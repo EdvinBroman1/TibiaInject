@@ -1,6 +1,7 @@
 #include "pch.h"
 #include <windows.h>
 #include "GUI.h"
+#include "Entity.h"
 
 intptr_t BaseAddress = (intptr_t)GetModuleHandle(NULL);
 
@@ -24,9 +25,7 @@ void send_attack_packet(int cid)
     }
 }
 
-BOOL set_target(int cid)
-{
-    *(int*)(BaseAddress + 0x23FE64) = cid;
-    send_attack_packet(cid);
-    return true;
+void Entity::attack() {
+    *reinterpret_cast<int*>(BaseAddress + 0x23FE64) = this->cid;
+    send_attack_packet(this->cid);
 }

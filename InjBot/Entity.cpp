@@ -3,95 +3,65 @@
 #include <string>
 #include "GUI.h"
 #include "Player.h"
-std::vector<Entity*> EntitiesOnScreen = std::vector<Entity*>();
+
+std::vector<Entity*> BattleList = std::vector<Entity*>();
 intptr_t BaseAdresss = (intptr_t)GetModuleHandle(NULL);
 
-Entity::Entity(int creature_id, std::string name, int h_precent, int x, int y, int z)
+Entity::Entity(int creature_id, std::string name, int h_precent, int x, int y, int z) :
+	cid(creature_id), Name(name), HealthPercent(h_precent), X(x), Y(y), Z(z) {
+};
+
+
+int Entity::get_cid()
 {
-	this->cid = creature_id;
-	this->Name = name;
-	this->HealthPercent = h_precent;
-	this->X = x;
-	this->Y = y;
-	this->Z = z;
+	return this->cid;
 }
 
-std::string get_creature_name_by_cid(int cid)
+std::string Entity::get_name()
 {
-	for (Entity* ent : EntitiesOnScreen)
-	{
-		if (ent->cid == cid)
-		{
-			return ent->Name;
-		}
-	}
-	return "Couldn't Find ENT";
+	return this->Name;
 }
 
+void Entity::add_to_battle_list()
+{
+	BattleList.push_back(this);
+}
 
-void populate_ent_list()
-{ 
-	//startBattleList  -> EndBattleList -> check parameters (x,y,z) -> add
-	intptr_t BaseAdr = BaseAdresss + 0x23FEF8;
-	intptr_t Offset = 0xA8;
+bool Entity::isOnScreen()
+{
 	Player* player = new Player();
 
-	for (int i = 0; i < 100; i++)
-	{
-		int creature_x = *(int*)(BaseAdr + (Offset * i) + 0x24);
-		int creature_y = *(int*)(BaseAdr + (Offset * i) + 0x28);
-		int creature_z = *(int*)(BaseAdr + (Offset * i) + 0x2C);
-
-		intptr_t pPlayer = getPlayerPointer(player->creature_id);
-
-		int player_x = *(int*)(pPlayer + 0x24);
-		int player_y = *(int*)(pPlayer + 0x28);
-		int player_z = *(int*)(getPlayerPointer(player->creature_id) + 0x2C);
-
-			if (creature_z == player_z && abs(creature_x - player_x) <= 7 && abs(creature_y - player_y) <= 5) {
-				EntitiesOnScreen.push_back(GetEntityByBaseAddress(BaseAdr + (Offset * i)));
-			}
-			else {
-				continue;
-		}
-	}
+	if (this->Z == player->z_pos && abs(this->X - player->x_pos) <= 7 && abs(this->Y - player->y_pos) <= 5)
+		return { true };
+	else return { false };
 
 }
 
-void print_ent_list()
+
+void print_battle_list()
 {
 	int y = 30;
-	for (Entity* ent : EntitiesOnScreen) {
+	for (Entity* ent : BattleList) {
+		if(ent->isOnScreen())
 		add_print(ent->Name, 50, y, 255, 255, 255, 4);
 		y = y + 20;
 	}
 
 }
 
-void clear_ent_list()
+void clear_battle_list()
 {
 
-	EntitiesOnScreen.clear();
-	EntitiesOnScreen.shrink_to_fit();
+	BattleList.clear();
+	BattleList.shrink_to_fit();
 }
 
-int get_ent_amount()
+int get_battle_list_amount()
 {
-	return EntitiesOnScreen.size();
-
+	return BattleList.size();
 }
 
-Entity* GetEntityByBaseAddress(uintptr_t BaseAddress)
-{
-	int cid = *(int*)BaseAddress;
-	std::string name((char*)(BaseAddress + 0x4));
-	int HealthProcent = *(int*)(BaseAddress + 0x88);
-	int X = *(int*)(BaseAddress + 0x24);
-	int Y = *(int*)(BaseAddress + 0x28);
-	int Z = *(int*)(BaseAddress + 0x2C);
-	Entity* ent = new Entity(cid, name, HealthProcent, X, Y, Z);
-	return ent;
-}
+
 
 
 

@@ -11,13 +11,15 @@ public:
 	int Y;
 	int Z;
 	Entity(int creature_id, std::string name, int h_precent, int x, int y, int z);
+	int get_cid();
+	std::string get_name();
+	void add_to_battle_list();
+	bool isOnScreen();
+	void attack();
 };
 
 
-Entity* GetEntityByBaseAddress(uintptr_t BaseAddress);
-
-void populate_ent_list();
-void print_ent_list();
-int get_ent_amount(); 
-void clear_ent_list();
+void print_battle_list();
+int get_battle_list_amount();
+void clear_battle_list();
 //char* get_creature_name_by_cid(int cid);

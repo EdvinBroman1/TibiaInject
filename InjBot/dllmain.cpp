@@ -31,15 +31,14 @@ DWORD WINAPI InjectThread(HMODULE hModule)
         }
         if (GetAsyncKeyState(VK_NUMPAD5) & 1)
         {
-            populate_ent_list();
-            print_ent_list();
-            add_print(std::to_string(get_ent_amount()), 300, 300, 255, 100, 255, 4);
+            print_battle_list();
+            add_print(std::to_string(get_battle_list_amount()), 300, 300, 255, 100, 255, 4);
 
         }
         if (GetAsyncKeyState(VK_NUMPAD9) & 1)
         {
             clear_prints();
-            clear_ent_list();
+            clear_battle_list();
         }
 
         Sleep(10);
