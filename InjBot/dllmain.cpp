@@ -1,21 +1,17 @@
+#include <windows.h>
 #include <string.h>
-#include "pch.h"
-
-#include "GUI.h"
-#include "Hook.h"
-#include "Includess.h"
-#include "Attacker.h"
-#include "Entity.h"
 #include "Player.h"
-
-intptr_t BaseAdress = (intptr_t)GetModuleHandle(NULL);
-
+#include "GUI.h"
+#include "Entity.h"
+#include "Hook.h"
 
 DWORD WINAPI InjectThread(HMODULE hModule)
 {
-    add_print("InjectBot 1.0", 5, 10, 30, 150, 150, 3);
+    
+    
+    add_print("InjectBot 1.0", 5, 10, 255, 150, 150, 4);
     Player* player = new Player();
-    Hook((void*)(BaseAdress + HookPrintAddy), print_text, 5);
+    PrintHook();
     while (true)
     {
         if (GetAsyncKeyState(VK_END) & 1)

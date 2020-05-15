@@ -84,7 +84,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;INJBOT_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -153,22 +153,22 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Addresses.h" />
-    <ClInclude Include="Attacker.h" />
     <ClInclude Include="Entity.h" />
-    <ClInclude Include="Hook.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="GUI.h" />
-    <ClInclude Include="Includess.h" />
+    <ClInclude Include="Hook.h" />
+    <ClInclude Include="Packet.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Position.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\tibia860\tibia860\Hook.cpp" />
-    <ClCompile Include="Attacker.cpp" />
+    <ClCompile Include="Addresses.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="GUI.cpp" />
+    <ClCompile Include="Hook.cpp" />
+    <ClCompile Include="Packet.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

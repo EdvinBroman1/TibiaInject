@@ -1,5 +1,6 @@
 #include <Windows.h>
-#include "pch.h"
+#include "GUI.h"
+#include "Addresses.h"
 
 BOOL Hook(void* pTarget, void* ourFunct, int len)
 {
@@ -21,4 +22,10 @@ BOOL Hook(void* pTarget, void* ourFunct, int len)
     VirtualProtect(pTarget, len, curProtection, &temp);
     return true;
 
+}
+
+void PrintHook()
+{
+
+    Hook((void*)(Client::BaseAddress + HookAddress::HookPrintAddy), print_text, 5);
 }

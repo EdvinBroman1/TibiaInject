@@ -1,67 +1,53 @@
 #pragma once
 #include "Position.h"
 #include <string>
+
 intptr_t getPlayerPointer(int creature_id);
-class Player {
-private:
-	enum PlayerOffsets {
-		FistSkill = 0x0,
-		ClubSkill = 0x4,
-		SwordSkill = 0x8,
-		AxeSkill = 0xC,
-		DistanceSkill = 0x10,
-		Shielding = 0x14,
-		FishSkill = 0x18,
 
-		Soul = 0x30,
-		MaxMana = 0x34,
-		Mana = 0x38,
 
-		MagicLevel = 0x44,
-		Level = 0x48,
-		Experience = 0x4C,
-		MaxHealth = 0x50,
-		Health = 0x54,
-
-		CreatureID = 0x58,
-
-		PositionX = 0x24,
-		PositionY = 0x28,
-		PositionZ = 0x2C
-	};
+struct PlayerSkills {
 public:
-	Player();
-	std::string ToString();
-	//stats
+	int FistSkill;
+	int ClubSkill;
+	int SwordSkill;
+	int AxeSkill;
+	int DistanceSkill;
+	int	Shielding;
+	int FishSkill;
+	char unknown1[0x14];
+	int Soul;
+	int MaxMana;
+	int Mana;
+	char unknown2[0x8];
+	int MagicLevel;
+	int Level;
+	int Experience;
+	int MaxHealth;
+	int	Health;
 
-	int fist_fight;
-	int club_fight;
-	int sword_fight;
-	int axe_fight;
-	int distance_fight;
-	int shield;
-	int fish;
+};
 
-	int soul;
-	int max_mana;
-	int current_mana;
+struct PlayerOffsets {
+public:
+	static const intptr_t CreatureID = 0x58;
+	static const intptr_t PositionX = 0x24;
+	static const intptr_t PositionY = 0x28;
+    static const intptr_t PositionZ = 0x2C;
+};
 
-	int magic_level;
-	int level;
-	int experience;
-	int max_health;
-	int current_health;
-
+class Player {
+public:
 	int creature_id;
-	uint32_t PlayerBase = getPlayerPointer(creature_id);
-
+	PlayerSkills* Skills;
+	uint32_t PlayerBase;
+	Position* Pos;
 	std::string Name;
-
-
-	int x_pos;
-	int y_pos;
-	int z_pos;
-
 	void Say(std::string msg, int id);
 	bool WalkTo(Position* newPos);
+
+	std::string ToString();
+
+	Player();
 };
+
+

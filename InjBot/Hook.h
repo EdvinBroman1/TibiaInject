@@ -1,4 +1,5 @@
-
+#pragma once
 #include <Windows.h>
 
-BOOL Hook(void* pTarget, void* ourFunct, int len);
+
+void PrintHook();

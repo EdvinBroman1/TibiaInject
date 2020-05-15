@@ -1,49 +1,24 @@
-#include "pch.h"
-#include "Player.h"
-#include <string>
 
-intptr_t LocalPlayer = (intptr_t)(0x63FE40);
-const intptr_t baseadr = (intptr_t)GetModuleHandle(NULL);
+#include "Player.h"
+#include "Addresses.h"
+
 
 
 Player::Player() :
-    fist_fight(*reinterpret_cast<int*>(LocalPlayer + PlayerOffsets::FistSkill)),
-    club_fight(*reinterpret_cast<int*>(LocalPlayer + PlayerOffsets::ClubSkill)),
-    sword_fight(*reinterpret_cast<int*>(LocalPlayer + PlayerOffsets::SwordSkill)),
-    axe_fight(*reinterpret_cast<int*>(LocalPlayer + PlayerOffsets::AxeSkill)),
-    distance_fight(*reinterpret_cast<int*>(LocalPlayer + PlayerOffsets::DistanceSkill)),
-    shield(*reinterpret_cast<int*>(LocalPlayer + PlayerOffsets::Shielding)),
-    fish(*reinterpret_cast<int*>(LocalPlayer + PlayerOffsets::FishSkill)),
-
-    soul(*reinterpret_cast<int*>(LocalPlayer + PlayerOffsets::Soul)),
-    max_mana(*reinterpret_cast<int*>(LocalPlayer + PlayerOffsets::MaxMana)),
-    current_mana(*reinterpret_cast<int*>(LocalPlayer + PlayerOffsets::Mana)),
-    magic_level(*reinterpret_cast<int*>(LocalPlayer + PlayerOffsets::MagicLevel)),
-    level(*reinterpret_cast<int*>(LocalPlayer + PlayerOffsets::Level)),
-    experience(*reinterpret_cast<int*>(LocalPlayer + PlayerOffsets::Experience)),
-
-    max_health(*reinterpret_cast<int*>(LocalPlayer + PlayerOffsets::MaxHealth)),
-    current_health(*reinterpret_cast<int*>(LocalPlayer + PlayerOffsets::Health)),
-    creature_id(*reinterpret_cast<int*>(LocalPlayer + PlayerOffsets::CreatureID)),
-    Name(std::string((char*)(PlayerBase + 0x4))),
-
-    x_pos(*reinterpret_cast<int*>(PlayerBase + PlayerOffsets::PositionX)),
-    y_pos(*reinterpret_cast<int*>(PlayerBase + PlayerOffsets::PositionY)),
-    z_pos(*reinterpret_cast<int*>(PlayerBase + PlayerOffsets::PositionZ))
-    {
-
-    }
-
-
-
+    Skills(reinterpret_cast<PlayerSkills*>(Client::BaseAddress + Self::LocalPlayer)),
+    creature_id(*reinterpret_cast<int*>(Client::BaseAddress + Self::LocalPlayer + PlayerOffsets::CreatureID)),
+    PlayerBase(getPlayerPointer(creature_id)),
+    Pos(reinterpret_cast<Position*>(PlayerBase + PlayerOffsets::PositionX))
+{
+}
 
 std::string Player::ToString() {
-    return "Name: " + this->Name + "\nLevel: " + std::to_string(this->level) + "\nHealth: " + std::to_string(this->current_health) + " / " + std::to_string(this->max_health) + "\n";
+    return "Name: " + this->Name + "\nLevel: " + std::to_string(this->Skills->Level) + "\nHealth: " + std::to_string(this->Skills->Health) + " / " + std::to_string(this->Skills->MaxHealth) + "\n";
 }
 
 
 void Player::Say(std::string msg, int id) {
-    intptr_t funcd = baseadr + 0x73F0;
+    intptr_t funcd = Client::BaseAddress + 0x73F0;
 
     char* ca = new char[msg.size() + 1];
     std::copy(msg.begin(), msg.end(), ca);
@@ -59,27 +34,28 @@ void Player::Say(std::string msg, int id) {
     delete[] ca;
 }
 
-bool Player::WalkTo(Position* newPos) // later on hook Sorry not possible popup & there is no way popup to check if successful
+bool Player::WalkTo(Position* newPos) 
 {
-    intptr_t functionadr = baseadr + 0xD0E20;
-    int x = newPos->X - this->x_pos;
-    int y = newPos->Y - this->y_pos;
-    int z = newPos->Z - this->z_pos;
+    intptr_t functionadr = Client::BaseAddress + 0xD0E20;
+    int x = newPos->X - this->Pos->X;
+    int y = newPos->Y - this->Pos->Y;
+    int z = newPos->Z - this->Pos->Z;
     __asm {
         push z
         push y
         push x
-
         call functionadr
-
     }
-    return true;
+    if (newPos->X == this->Pos->X && newPos->Y == this->Pos->Y && newPos->Z == this->Pos->Z)
+        return true;
+    else
+        return false;
 }
 
 
 intptr_t getPlayerPointer(int creature_id)
 {
-    intptr_t function_adr = baseadr + 0x5E720;
+    intptr_t function_adr = Client::BaseAddress + 0x5E720;
     intptr_t pointr = 0x0;
 
     __asm

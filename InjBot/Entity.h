@@ -1,7 +1,6 @@
 #include <vector>
 #include <string>
 
-
 class Entity {
 public:
 	int cid;
@@ -22,4 +21,3 @@ public:
 void print_battle_list();
 int get_battle_list_amount();
 void clear_battle_list();
-//char* get_creature_name_by_cid(int cid);

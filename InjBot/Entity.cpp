@@ -1,11 +1,10 @@
-#include "pch.h"
 #include "Entity.h"
-#include <string>
-#include "GUI.h"
 #include "Player.h"
+#include "Addresses.h"
+#include "GUI.h"
+#include "Packet.h"
 
 std::vector<Entity*> BattleList = std::vector<Entity*>();
-intptr_t BaseAdresss = (intptr_t)GetModuleHandle(NULL);
 
 Entity::Entity(int creature_id, std::string name, int h_precent, int x, int y, int z) :
 	cid(creature_id), Name(name), HealthPercent(h_precent), X(x), Y(y), Z(z) {
@@ -31,12 +30,16 @@ bool Entity::isOnScreen()
 {
 	Player* player = new Player();
 
-	if (this->Z == player->z_pos && abs(this->X - player->x_pos) <= 7 && abs(this->Y - player->y_pos) <= 5)
+	if (this->Z == player->Pos->Z && abs(this->X - player->Pos->X) <= 7 && abs(this->Y - player->Pos->Y) <= 5)
 		return { true };
 	else return { false };
 
 }
 
+void Entity::attack() {
+	*reinterpret_cast<int*>(Client::BaseAddress + Control::RedSquare) = this->cid;
+	send_attack_packet(this->cid);
+}
 
 void print_battle_list()
 {

@@ -1,11 +1,8 @@
-#include "pch.h"
-#include <vector>
+#include <windows.h>
 #include "GUI.h"
-#include <string>
+#include "Addresses.h"
 
 intptr_t PrintTextFunctionAddy = 0x122A90;
-
-intptr_t BaseAdr = (intptr_t)GetModuleHandle(NULL);
 
 #pragma region Prints
 
@@ -24,7 +21,7 @@ std::vector<Print*> prints = std::vector<Print*>();
 
 
 void add_text(const char* text, int x, int y, int RGB_r, int RGB_g, int RGB_b, int font) {
-    intptr_t funcAdr = BaseAdr + 0xB4DD0;
+    intptr_t funcAdr = Client::BaseAddress + 0xB4DD0;
 
     __asm {
         MOV EDX, text
@@ -45,7 +42,7 @@ void add_text(const char* text, int x, int y, int RGB_r, int RGB_g, int RGB_b, i
 
 void print_text()
 {
-    intptr_t FillerAdr = BaseAdr + PrintTextFunctionAddy;
+    intptr_t FillerAdr = Client::BaseAddress + PrintTextFunctionAddy;
     if (prints.size() > 0)
     {
         for (Print* print : prints)

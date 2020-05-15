@@ -1,8 +1,27 @@
 #pragma once
 #include <windows.h>
 
-intptr_t HookPrintAddy = 0x5A34A;
+class Client {
+public:
+	static intptr_t BaseAddress;
+};
 
+class HookAddress {
+public:
+	static intptr_t HookPrintAddy;
+};
 
+class Status {
+public:
+	static intptr_t OnlinePointer;
+};
 
-intptr_t OnlinePointer = 0x29459E0;
+class Self {
+public:
+	static intptr_t LocalPlayer;
+};
+
+class Control {
+public:
+	static intptr_t RedSquare;
+};
