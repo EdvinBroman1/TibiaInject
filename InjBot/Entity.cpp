@@ -10,7 +10,6 @@ Entity::Entity(int creature_id, std::string name, int h_precent, int x, int y, i
 	cid(creature_id), Name(name), HealthPercent(h_precent), X(x), Y(y), Z(z) {
 };
 
-
 int Entity::get_cid()
 {
 	return this->cid;

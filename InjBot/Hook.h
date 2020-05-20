@@ -1,5 +1,4 @@
 #pragma once
 #include <Windows.h>
 
-
-void PrintHook();
+void enable_hooks();

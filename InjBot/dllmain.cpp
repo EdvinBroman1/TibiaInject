@@ -10,8 +10,12 @@ DWORD WINAPI InjectThread(HMODULE hModule)
     
     
     add_print("InjectBot 1.0", 5, 10, 255, 150, 150, 4);
+    add_context_item("Supporter", 0x4000, "InjBot");
+    add_context_item("Attacker", 0x4001, "InjBot");
+
     Player* player = new Player();
-    PrintHook();
+    enable_hooks();
+
     while (true)
     {
         if (GetAsyncKeyState(VK_END) & 1)
@@ -41,11 +45,6 @@ DWORD WINAPI InjectThread(HMODULE hModule)
     FreeLibraryAndExitThread(hModule, 0);
 
 }
-
-
-
-
-
 
 
 BOOL APIENTRY DllMain( HMODULE hModule,

@@ -9,6 +9,9 @@ public:
 class HookAddress {
 public:
 	static intptr_t HookPrintAddy;
+	static intptr_t HookContextFiller;
+	static intptr_t HookContextAdd;
+	static intptr_t HookContextMenuSwitch;
 };
 
 class Status {
@@ -24,4 +27,5 @@ public:
 class Control {
 public:
 	static intptr_t RedSquare;
+	static intptr_t ContextMenuSwitch;
 };

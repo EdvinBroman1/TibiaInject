@@ -38,15 +38,16 @@ public:
 class Player {
 public:
 	int creature_id;
-	PlayerSkills* Skills;
 	uint32_t PlayerBase;
+
+	PlayerSkills* Skills;
 	Position* Pos;
+
 	std::string Name;
 	void Say(std::string msg, int id);
 	bool WalkTo(Position* newPos);
 
 	std::string ToString();
-
 	Player();
 };
 

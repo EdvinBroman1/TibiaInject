@@ -24,8 +24,28 @@ BOOL Hook(void* pTarget, void* ourFunct, int len)
 
 }
 
+
+
 void PrintHook()
 {
 
     Hook((void*)(Client::BaseAddress + HookAddress::HookPrintAddy), print_text, 5);
+}
+
+void ContextMenuHook()
+{
+    Hook((void*)HookAddress::HookContextAdd, print_context, 5);
+}
+
+void ContextMenuSwitchHook()
+{
+    Hook((void*)HookAddress::HookContextMenuSwitch, ContextHandlerSaveRegisters, 5);
+}
+
+void enable_hooks()
+{
+    PrintHook();
+    ContextMenuHook();
+    ContextMenuSwitchHook();
+
 }
