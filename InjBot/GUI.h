@@ -2,6 +2,21 @@
 #include <vector>
 #include <string>
 
+
+class Menu {
+public:
+    //2d
+    int ActionType;
+
+    int PositionX;
+    int PositionY;
+
+    int Width;
+    int Height;
+
+};
+
+
 class Print {
 
 public:
@@ -36,3 +51,8 @@ void print_text();
 void ContextHandler();
 
 volatile void ContextHandlerSaveRegisters();
+
+
+
+void create_check_box(std::string text, bool Checked);
+volatile void hook_create_check_box();

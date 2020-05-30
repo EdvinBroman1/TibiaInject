@@ -42,10 +42,16 @@ void ContextMenuSwitchHook()
     Hook((void*)HookAddress::HookContextMenuSwitch, ContextHandlerSaveRegisters, 5);
 }
 
+void CreateOptionButtonHook()
+{
+    Hook((void*)(Client::BaseAddress + 0x91609), hook_create_check_box, 7);
+}
+
 void enable_hooks()
 {
     PrintHook();
     ContextMenuHook();
     ContextMenuSwitchHook();
+   // CreateOptionButtonHook();
 
 }

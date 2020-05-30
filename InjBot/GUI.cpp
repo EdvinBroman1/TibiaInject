@@ -74,7 +74,6 @@ int clear_prints()
 
 
 
-
 #pragma endregion Prints
 
 #pragma region ContextMenus
@@ -92,7 +91,6 @@ void CreateContextMenuItem(const char* ShortCut, const char* txt, int EventID)
 {
 
     __asm {
-
         push ShortCut
         push txt
         push EventID
@@ -106,7 +104,9 @@ void print_context()
 {
     intptr_t FillerAdr = Client::BaseAddress + HookAddress::HookContextFiller;
 
-
+    __asm {
+        MOV BYTE PTR DS : [ESI + 0x30] , 1 
+    }
     for (ContextMenuItem* CMI : ContextMenuItems)
     {
         CreateContextMenuItem(CMI->Shortcut, CMI->Text, CMI->EventID);
@@ -179,6 +179,9 @@ void ContextHandler()
             add_print("Clicked SECOND BOX :D", 40, 500, 155, 155, 255, 4);
             CustomMenu = true;
             break; 
+        case 0x4002:
+
+            break;
               default:
             break;
         }
@@ -188,3 +191,69 @@ void ContextHandler()
 
 
 #pragma endregion ContextMenus
+
+
+#pragma region CheckBoxes
+
+
+
+void create_check_box(std::string text, bool Checked){
+    int check = 0;
+    if (Checked) check = 1;
+    char* txt = (char*)":POG:";
+    uint32_t createCheckBoxAdr = 0x47CFF0;
+    uint32_t pMenu = 0x27AC960;
+    __asm {
+        push 50
+        push 50
+        push txt
+        mov ecx, pMenu // pointer to gui object the checkbox should be created within.
+        call createCheckBoxAdr
+    }
+
+}
+
+#pragma endregion CheckBoxes
+
+#pragma region OptionButtons
+uint32_t edxV = 0;
+void CreateButton() {
+          std::string Text = "EBBot";
+          int spriteid = 13;
+          int sprite_id_pressed = 12;
+        char* ca = new char[Text.size() + 1];
+        std::copy(Text.begin(), Text.end(), ca);
+        ca[Text.size()] = '\0';
+        uint32_t functionadr = 0x47C650;
+    __asm {
+
+        push 0
+        push 196
+        push edxV
+        push spriteid
+        push sprite_id_pressed
+        push ca
+        push 0
+        push 0
+        CALL functionadr
+    }
+}
+uint32_t jmpback = 0x491610;
+volatile void __declspec(naked) hook_create_check_box() {
+    __asm {
+        mov edxV, edx
+        pushfd
+        pushad
+
+    }
+    CreateButton();
+    __asm {
+        popad
+        popfd
+        PUSH 0x4C
+        call HookAddress::HookOptionsButtonCreate
+       jmp jmpback
+    }
+
+}
+#pragma endregion OptionButtons

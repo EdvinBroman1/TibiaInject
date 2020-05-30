@@ -9,9 +9,11 @@ DWORD WINAPI InjectThread(HMODULE hModule)
 {
     
     
-    add_print("InjectBot 1.0", 5, 10, 255, 150, 150, 4);
-    add_context_item("Supporter", 0x4000, "InjBot");
-    add_context_item("Attacker", 0x4001, "InjBot");
+
+    add_print("EBBOT 1.0", 5, 20, 255, 250, 150, 2);
+    add_context_item("Supporter", 0x4000, "EBBot");
+    add_context_item("Attacker", 0x4001, "EBBot");
+    add_context_item("Walker", 0x4002, "EBBot");
 
     Player* player = new Player();
     enable_hooks();
@@ -30,9 +32,7 @@ DWORD WINAPI InjectThread(HMODULE hModule)
         }
         if (GetAsyncKeyState(VK_NUMPAD5) & 1)
         {
-            print_battle_list();
-            add_print(std::to_string(get_battle_list_amount()), 300, 300, 255, 100, 255, 4);
-
+            create_check_box("g", true);
         }
         if (GetAsyncKeyState(VK_NUMPAD9) & 1)
         {
