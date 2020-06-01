@@ -162,7 +162,7 @@ volatile void __declspec(naked) ContextHandlerSaveRegisters()
 
 void ContextHandler()
 {
-    CustomMenu = false;
+    CustomMenu = true;
     uint32_t pEventID = 0x1337;
     int EventID = 0;
     __asm {
@@ -173,16 +173,15 @@ void ContextHandler()
         {
         case 0x4000:
             add_print("Clicked First BOX :D", 40, 700, 155, 155, 255, 4);
-            CustomMenu = true;
             break;
         case 0x4001:
             add_print("Clicked SECOND BOX :D", 40, 500, 155, 155, 255, 4);
-            CustomMenu = true;
             break; 
         case 0x4002:
 
             break;
               default:
+                  CustomMenu = false;
             break;
         }
 
