@@ -28,7 +28,7 @@ void Entity::add_to_battle_list()
 bool Entity::isOnScreen()
 {
 	Player* player = new Player();
-
+	
 	if (this->Z == player->Pos->Z && abs(this->X - player->Pos->X) <= 7 && abs(this->Y - player->Pos->Y) <= 5)
 		return { true };
 	else return { false };

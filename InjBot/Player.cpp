@@ -33,7 +33,18 @@ void Player::Say(std::string msg, int id) {
 
     delete[] ca;
 }
+/*
+void Player::Say(std::string msg, int id) {
 
+    using sayFunc = void(cdecl*)(std::string mMsg, int ID);
+    sayFunc sF = (sayFunc)(Client::BaseAddress + 0x73F0);
+    
+    sF(msg, id);
+
+    sF(msg, id);
+
+}
+*/
 bool Player::WalkTo(Position* newPos) 
 {
     intptr_t functionadr = Client::BaseAddress + 0xD0E20;
@@ -58,13 +69,19 @@ intptr_t getPlayerPointer(int creature_id)
     intptr_t function_adr = Client::BaseAddress + 0x5E720;
     intptr_t pointr = 0x0;
 
+    using getPlayerPtr = void(cdecl*)(int CreatureID);
+    getPlayerPtr getPlayer = (getPlayerPtr)(Client::BaseAddress + 0x5E720);
+
+    getPlayer(creature_id);
+
+    
     __asm
     {
         MOV EAX, creature_id
         PUSH eax
         CALL function_adr;
         ADD ESP, 0x4
-            mov pointr, eax
+        mov pointr, eax
     }
     return pointr;
 }

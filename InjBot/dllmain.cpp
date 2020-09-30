@@ -1,16 +1,22 @@
 #include <windows.h>
+#include <Mmsystem.h>
 #include <string.h>
 #include "Player.h"
 #include "GUI.h"
 #include "Entity.h"
 #include "Hook.h"
 
+
+template<typename T>
+T readMemory(LPVOID adr) {
+    return *(T*)adr;
+}
+
+
 DWORD WINAPI InjectThread(HMODULE hModule)
 {
-    
-    
-
     add_print("EBBOT 1.0", 5, 20, 255, 250, 150, 2);
+
     add_context_item("Supporter", 0x4000, "EBBot");
     add_context_item("Attacker", 0x4001, "EBBot");
     add_context_item("Walker", 0x4002, "EBBot");
@@ -32,7 +38,7 @@ DWORD WINAPI InjectThread(HMODULE hModule)
         }
         if (GetAsyncKeyState(VK_NUMPAD5) & 1)
         {
-            create_check_box("g", true);
+            CreateNewChannel();
         }
         if (GetAsyncKeyState(VK_NUMPAD9) & 1)
         {

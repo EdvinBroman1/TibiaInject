@@ -50,6 +50,8 @@ void print_context();
 void print_text();
 void ContextHandler();
 
+void CreateNewChannel();
+
 volatile void ContextHandlerSaveRegisters();
 
 

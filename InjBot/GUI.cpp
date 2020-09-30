@@ -187,7 +187,36 @@ void ContextHandler()
 
     }
 
+void CreateNewChannel() {
+    const char* xx = "New Title";
+    uint32_t pointer = 0x0276CBE0;
+    uint32_t func = 0x498250;
+    __asm {
+        MOV EDI, pointer
+        MOV ESP, xx
+        PUSH pointer
+        PUSH xx
+        MOV ECX, pointer
+        CALL func
+    }
+}
 
+
+void CreateNewChannel1() {
+    uint32_t functionadr = Client::BaseAddress + 0xA0E20;
+
+    uint32_t PointerToGuiElement = 0;
+    uint32_t GameCurrentGui = (Client::BaseAddress + 0x24F5C4);
+    __asm {
+        PUSH 0
+        PUSH 0
+        PUSH 0
+        CALL functionadr
+        MOV PointerToGuiElement, EAX
+    }
+
+     *(int*)GameCurrentGui = PointerToGuiElement;
+}
 
 #pragma endregion ContextMenus
 
@@ -215,6 +244,7 @@ void create_check_box(std::string text, bool Checked){
 #pragma endregion CheckBoxes
 
 #pragma region OptionButtons
+
 uint32_t edxV = 0;
 void CreateButton() {
           std::string Text = "EBBot";
